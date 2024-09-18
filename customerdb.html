@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Shopping Cart - NIC3TECH</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e6f7ff;
+        }
+
+        header {
+            background-color: #474747;;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        
+
+        nav {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .cart-table th, .cart-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .cart-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .cart-table td img {
+            width: 100px;
+            height: auto;
+        }
+
+        .cart-table input[type="number"] {
+            width: 50px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .cart-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .cart-actions button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .cart-actions button:hover {
+            background-color: #45a049;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+       
+        .header .input-box2 {
+    position: center;
+    justify-content: space-between;
+    width: 40%;
+    height: 5px;
+    margin:30px 0;
+
+}
+
+.input-box2 input {
+    width: 60%;
+    height: 40%;
+    background: transparent;
+    position: relative;
+    border:none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box2 input::placeholder{
+    color: #fff;
+}
+.input-box2 i{
+    position: center;
+    right: 1px;
+    top: 100%;
+    font-size: 20px;
+}
+
+    </style>
+</head>
+<body>
+<header>
+    <img src="whatsappimage1234.jpg" alt="logo" width="400" height="100"/>
+    <h1><p> Adminstrator table</p></h1>
+    </div>
+    </form>
+</header>
+<nav>
+    <a href="HOME.html" alt="Go to your home page">HOME</a>
+    <a href="YOURACCOUNT.html" alt="Go to your account page">YOUR ACCOUNT</a>
+    <a href="SHOPPINGCART.html" alt="Go to your shopping cart page">SHOPPING CART</a>
+</nav>
+<div class="container">
+    <table id="data" class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th class="pt-0">ID</th>
+                <th class="pt-0">Customer Name</th>
+                <th class="pt-0">Customer Email</th>
+                <th class="pt-0">Phone number</th>
+                <th class="pt-0">Customer Address</th>
+                <th class="pt-0">Password</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be loaded here dynamically -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var dataTable = $('#data').DataTable({
+            "pageLength": 10,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "ajax": {
+                "url": "customertbl.php",
+                "type": "POST"
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "fname" },
+                { "data": "femail" },
+                { "data": "fphone" },
+                { "data": "faddress" },
+                { "data": "fpassword" },
+                {
+                    "data": null,
+                    "render": function(data, type, row) {
+                        return '<button class="edit btn btn-primary btn-sm" data-id="' + row.id + '">Edit</button> ' +
+                               '<button class="delete btn btn-danger btn-sm" data-id="' + row.id + '">Delete</button>';
+                    }
+                }
+            ]
+        });
+
+        // Event handlers for Edit and Delete buttons
+        $('#data').on('click', '.edit', function() {
+            var id = $(this).data('id');
+            // Add your edit logic here
+            console.log('Edit clicked for ID:', id);
+        });
+
+        $('#data').on('click', '.delete', function() {
+            var id = $(this).data('id');
+            // Add your delete logic here
+            console.log('Delete clicked for ID:', id);
+        });
+    });
+</script>
+</body>
+</html>
